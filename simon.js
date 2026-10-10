@@ -1,4 +1,6 @@
-// Simon Says actions. Each entry is [emoji, action].
+// Simon Says actions. Each entry is [emoji, action] or [emoji, action, old].
+// Plain entries use emoji from Unicode 12 (2019) or older. Entries with newer
+// emoji need a third value for old-phone mode: an older emoji, or null to hide.
 // Keep them small and quiet: players stand in a crowded line.
 window.SIMON_ACTIONS = [
   ['👃', 'touch your nose'],
@@ -35,4 +37,13 @@ window.SIMON_ACTIONS = [
   ['👐', 'shake your hands'],
   ['😁', 'show your biggest smile'],
   ['😋', 'pat your tummy'],
+  // Newer emoji (Unicode 13-15)
+  ['🫡', 'salute', null],
+  ['🫣', 'peek through your fingers', '🙈'],
+  ['🫠', 'melt like an ice cream', null],
+  ['🫶', 'make a heart with your hands', null],
+  ['🫨', 'shake like jelly', null],
+  ['🥷', 'do a ninja pose', null],
+  ['🪥', 'pretend to brush your teeth', null],
+  ['🦭', 'clap like a seal', '👏'],
 ];

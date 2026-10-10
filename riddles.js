@@ -1,5 +1,7 @@
-// Emoji Riddles. Each entry is [emoji clue, answer].
-// Use emoji from Unicode 12 (2019) or older, so older phones show them.
+// Emoji Riddles. Each entry is [emoji clue, answer] or [emoji clue, answer, old].
+// Plain entries use emoji from Unicode 12 (2019) or older, so every phone shows them.
+// Entries with newer emoji need a third value for old-phone mode:
+//   an older clue to show instead, or null to hide the entry.
 window.RIDDLE_LISTS = {
   disney: {
     label: 'Disney & Pixar',
@@ -17,7 +19,7 @@ window.RIDDLE_LISTS = {
       ['🌹👹🕯️', 'Beauty and the Beast'],
       ['🧞🐒🪔', 'Aladdin'],
       ['🍎👸⛏️', 'Snow White'],
-      ['👠🎃🕛', 'Cinderella'],
+      ['👠🎃🪄🕛', 'Cinderella', '👠🎃🕛'],
       ['🌊🛶🐔', 'Moana'],
       ['🐉⚔️👩', 'Mulan'],
       ['🏎️⚡🏆', 'Cars'],
@@ -30,7 +32,7 @@ window.RIDDLE_LISTS = {
       ['💇‍♀️🏰🍳', 'Tangled'],
       ['🐻🏹👸', 'Brave'],
       ['🐜🦗🎪', "A Bug's Life"],
-      ['🐘👂✈️', 'Dumbo'],
+      ['🐘👂🪶', 'Dumbo', '🐘👂✈️'],
       ['🦌🐇🌸', 'Bambi'],
       ['🤥🐋', 'Pinocchio'],
       ['🧚‍♀️🏴‍☠️🐊⏰', 'Peter Pan'],
@@ -52,7 +54,7 @@ window.RIDDLE_LISTS = {
       ['⭐🙏🐐', 'Wish'],
       ['🎃💀🎄', 'The Nightmare Before Christmas'],
       ['🚀👨‍🚀🐱', 'Lightyear'],
-      ['🐭🧙‍♂️🧹', 'Fantasia'],
+      ['🐭🪄🧹', 'Fantasia', '🐭🧙‍♂️🧹'],
       ['🐰⏰🎩🃏', 'Alice in Wonderland'],
       ['💤👸🧚', 'Sleeping Beauty'],
       ['🔔⛪🐐', 'The Hunchback of Notre Dame'],
@@ -60,7 +62,10 @@ window.RIDDLE_LISTS = {
       ['🦍🌴👨', 'Tarzan'],
       ['🦙👑', "The Emperor's New Groove"],
       ['🐸👸🎺', 'The Princess and the Frog'],
-      ['🍃🌈🌲', 'Pocahontas'],
+      ['🪶🍃🌈', 'Pocahontas', '🍃🌈🌲'],
+      ['🐕⚡🐹', 'Bolt'],
+      ['🐔🌰👽', 'Chicken Little'],
+      ['👦👽🪐', 'Elio'],
     ],
   },
   movies: {
@@ -74,7 +79,7 @@ window.RIDDLE_LISTS = {
       ['🐼🥋', 'Kung Fu Panda'],
       ['💛🍌👓', 'Minions'],
       ['🐧💃🎶', 'Happy Feet'],
-      ['🐘❄️🐿️🌰', 'Ice Age'],
+      ['🦣❄️🐿️🌰', 'Ice Age', '🐘❄️🐿️🌰'],
       ['🐉👦🔥', 'How to Train Your Dragon'],
       ['🦁🦓🦒🦛🌴', 'Madagascar'],
       ['🐻🎩🍊', 'Paddington'],
@@ -102,6 +107,12 @@ window.RIDDLE_LISTS = {
       ['👦🐶🔬', 'Frankenweenie'],
       ['🐔🏃‍♀️🥧', 'Chicken Run'],
       ['🧀🐕🚀🌕', 'Wallace & Gromit'],
+      ['🦖🏛️🌙', 'Night at the Museum'],
+      // Newer emoji (Unicode 13-15)
+      ['🧌🌈🎶', 'Trolls', null],
+      ['🧙‍♀️🧙‍♀️🧙‍♀️🕯️🐈‍⬛', 'Hocus Pocus', '🧙‍♀️🧙‍♀️🧙‍♀️🕯️🐈'],
+      ['🥷🐢🍕', 'Teenage Mutant Ninja Turtles', '🐢🐢🐢🐢🍕'],
+      ['🫧🧽⭐', 'The SpongeBob Movie', null],
     ],
   },
 };

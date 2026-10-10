@@ -51,3 +51,14 @@ Open `index.html` in a browser. Press Enter to start. Then use the keyboard:
 
 - Down arrow = correct
 - Up arrow = skip
+
+## Emoji on old phones
+
+Old phones cannot show emoji from 2020 or later. They show an empty box (☐) instead.
+
+- When the app opens, it tests one emoji from 2022 (🫎). If the phone cannot show it, the app uses **old-phone mode**.
+- The **📱 Emoji** setting on the home screen changes the mode by hand: Auto, Modern phone or Old phone.
+- To add an item with a new emoji, add a third value for old-phone mode:
+  - an older emoji to show instead: `['🪶🐘👂', 'Dumbo', '🐘👂✈️']`
+  - or `null` to hide the item on old phones: `['🦫', 'Beaver', null]`
+- Items with only two values must use emoji from 2019 (Unicode 12) or older.

@@ -49,6 +49,60 @@ function saveSetting(key, value) {
   try { localStorage.setItem(key, value); } catch { /* storage not available */ }
 }
 
+// ---- Emoji support (modern or old phone) ----
+// Draw a 2022 emoji (Unicode 15.0) on a hidden canvas. A phone that knows it
+// draws it in color. A phone that does not draws a gray box or nothing.
+function drawsInColor(emoji) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 32;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.textBaseline = 'top';
+  ctx.font = '28px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+  ctx.fillStyle = '#000';
+  ctx.fillText(emoji, 0, 0);
+  const d = ctx.getImageData(0, 0, 32, 32).data;
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] > 0 && (Math.abs(d[i] - d[i + 1]) > 40 || Math.abs(d[i + 1] - d[i + 2]) > 40)) return true;
+  }
+  return false;
+}
+
+function detectModernEmoji() {
+  try {
+    // If even an old emoji is not in color, the test does not work here. Assume modern.
+    if (!drawsInColor('😀')) return true;
+    return drawsInColor('🫎') && drawsInColor('🪼');
+  } catch {
+    return true;
+  }
+}
+
+const emoji = { detected: null, old: false };
+
+function applyEmojiMode() {
+  const mode = $('emoji-mode').value;
+  if (emoji.detected === null) emoji.detected = detectModernEmoji();
+  emoji.old = mode === 'old' || (mode === 'auto' && !emoji.detected);
+  $('emoji-status').textContent = mode === 'auto'
+    ? 'Auto: this phone has ' + (emoji.detected ? 'modern emoji 🫎' : 'old emoji. Some items are hidden.')
+    : mode === 'old' ? 'Old phone: new emoji are swapped or hidden.' : 'Modern phone: all emoji on.';
+  // Start fresh decks so the new mode takes effect at once.
+  state.decks = {};
+  riddles.deck = [];
+}
+
+// Entries are [emoji, text] or [emoji, text, old]. In old-phone mode, swap in
+// the older emoji, or drop the entry when old is null.
+function forPhone(entries) {
+  if (!emoji.old) return entries;
+  const out = [];
+  for (const e of entries) {
+    if (!Array.isArray(e) || e.length < 3) out.push(e);
+    else if (e[2] !== null) out.push([e[2], e[1]]);
+  }
+  return out;
+}
+
 // ---- Screens ----
 function show(name) {
   state.screen = name;
@@ -171,7 +225,7 @@ function nextWord() {
   const key = state.mode + ':' + state.category;
   let deck = state.decks[key];
   if (!deck || deck.next >= deck.words.length) {
-    const list = GAMES[state.mode].lists()[state.category].words;
+    const list = forPhone(GAMES[state.mode].lists()[state.category].words);
     deck = state.decks[key] = { words: shuffle(list), next: 0 };
   }
   return toItem(deck.words[deck.next++]);
@@ -379,8 +433,8 @@ const riddles = { category: 'all', deck: [], next: 0 };
 
 function riddlePool() {
   const lists = window.RIDDLE_LISTS;
-  if (riddles.category !== 'all') return lists[riddles.category].riddles;
-  return Object.values(lists).flatMap((l) => l.riddles);
+  if (riddles.category !== 'all') return forPhone(lists[riddles.category].riddles);
+  return forPhone(Object.values(lists).flatMap((l) => l.riddles));
 }
 
 function nextRiddle() {
@@ -428,7 +482,7 @@ function speak(text) {
 }
 
 function simonTick() {
-  const list = window.SIMON_ACTIONS;
+  const list = forPhone(window.SIMON_ACTIONS);
   let i;
   do { i = Math.floor(Math.random() * list.length); } while (i === simon.last && list.length > 1);
   simon.last = i;
@@ -621,6 +675,10 @@ function init() {
   });
 
   buildOffline();
+
+  bindSetting('emoji-mode', 'emojiMode', 'auto');
+  $('emoji-mode').addEventListener('change', applyEmojiMode);
+  applyEmojiMode();
 
   buildRiddleCats();
   $('riddle-next').addEventListener('click', nextRiddle);

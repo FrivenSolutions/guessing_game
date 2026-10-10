@@ -1,5 +1,7 @@
-// Picture lists for Picture Guess. Each entry is [emoji, word].
-// Use emoji from Unicode 12 (2019) or older, so older phones show them.
+// Picture lists for Picture Guess. Each entry is [emoji, word] or [emoji, word, old].
+// Plain entries use emoji from Unicode 12 (2019) or older, so every phone shows them.
+// Entries with newer emoji need a third value for old-phone mode:
+//   an older emoji to show instead, or null to hide the entry.
 window.PICTURE_LISTS = {
   animals: {
     label: 'Animals',
@@ -19,6 +21,10 @@ window.PICTURE_LISTS = {
       ['🦔', 'Hedgehog'], ['🦇', 'Bat'], ['🦩', 'Flamingo'], ['🦚', 'Peacock'], ['🦜', 'Parrot'],
       ['🦥', 'Sloth'], ['🦦', 'Otter'], ['🦨', 'Skunk'], ['🐿️', 'Squirrel'], ['🦃', 'Turkey'],
       ['🦢', 'Swan'], ['🦙', 'Llama'], ['🦝', 'Raccoon'],
+      // Newer emoji (Unicode 13-15)
+      ['🦫', 'Beaver', null], ['🦭', 'Seal', null], ['🦣', 'Mammoth', null], ['🦬', 'Bison', null], ['🦤', 'Dodo', null],
+      ['🪲', 'Beetle', null], ['🪱', 'Worm', null], ['🪰', 'Fly', null], ['🐻‍❄️', 'Polar Bear', null], ['🫎', 'Moose', null],
+      ['🫏', 'Donkey', null], ['🪿', 'Goose', null], ['🪼', 'Jellyfish', null],
     ],
   },
   food: {
@@ -36,6 +42,9 @@ window.PICTURE_LISTS = {
       ['🌽', 'Corn'], ['🥦', 'Broccoli'], ['🍄', 'Mushroom'], ['🥔', 'Potato'], ['🌶️', 'Chili Pepper'],
       ['🥒', 'Cucumber'], ['🍅', 'Tomato'], ['🥜', 'Peanuts'], ['🍯', 'Honey'], ['🥛', 'Milk'],
       ['🧃', 'Juice Box'], ['🥪', 'Sandwich'], ['🥗', 'Salad'], ['🍗', 'Chicken Leg'], ['🍲', 'Soup'],
+      // Newer emoji (Unicode 13-15)
+      ['🫐', 'Blueberries', null], ['🫒', 'Olives', null], ['🫑', 'Bell Pepper', null], ['🧋', 'Bubble Tea', null], ['🫕', 'Fondue', null],
+      ['🫓', 'Flatbread', null], ['🫘', 'Beans', null], ['🫛', 'Pea Pod', null], ['🫚', 'Ginger', null], ['🫖', 'Teapot', null],
     ],
   },
   actions: {
@@ -51,6 +60,10 @@ window.PICTURE_LISTS = {
       ['🤣', 'Laugh'], ['😭', 'Cry'], ['👋', 'Wave'], ['👏', 'Clap'], ['🎢', 'Ride a Roller Coaster'],
       ['🏇', 'Ride a Horse'], ['🎮', 'Play Video Games'], ['📞', 'Talk on the Phone'], ['🤹', 'Juggle'], ['🧙', 'Cast a Spell'],
       ['✈️', 'Fly a Plane'], ['🚗', 'Drive a Car'], ['🍦', 'Lick an Ice Cream'], ['🪁', 'Fly a Kite'], ['🤿', 'Snorkel'],
+      // Newer emoji (Unicode 13-15)
+      ['🪥', 'Brush Your Teeth', null], ['🛼', 'Roller Skate', null], ['🥷', 'Be a Ninja', null], ['🫧', 'Blow Bubbles', null], ['🫡', 'Salute', null],
+      ['🪇', 'Shake Maracas', null], ['🪈', 'Play the Flute', null], ['🛝', 'Go Down a Slide', null], ['🫣', 'Peek-a-boo', null], ['🫠', 'Melt', null],
+      ['🪭', 'Fan Yourself', null], ['🫶', 'Make a Heart', null], ['🪄', 'Do Magic', '🧙'],
     ],
   },
   things: {
@@ -69,6 +82,11 @@ window.PICTURE_LISTS = {
       ['🌈', 'Rainbow'], ['☀️', 'Sun'], ['🌙', 'Moon'], ['⚡', 'Lightning'], ['🌋', 'Volcano'],
       ['🎃', 'Pumpkin Lantern'], ['🎄', 'Christmas Tree'], ['💎', 'Diamond'], ['🧲', 'Magnet'], ['🔭', 'Telescope'],
       ['🦷', 'Tooth'], ['🪀', 'Yo-yo'], ['🧭', 'Compass'], ['🗺️', 'Map'], ['⚓', 'Anchor'],
+      ['🪐', 'Planet'],
+      // Newer emoji (Unicode 13-15)
+      ['🪄', 'Magic Wand', null], ['🪅', 'Piñata', null], ['🪆', 'Nesting Dolls', null], ['🛻', 'Pickup Truck', null], ['🪃', 'Boomerang', null],
+      ['🪜', 'Ladder', null], ['🪣', 'Bucket', null], ['🪞', 'Mirror', null], ['🪨', 'Rock', null], ['🛟', 'Life Ring', null],
+      ['🛞', 'Wheel', null], ['🪸', 'Coral', null], ['🪩', 'Disco Ball', null], ['🪙', 'Coin', null], ['🛖', 'Hut', null],
     ],
   },
 };
