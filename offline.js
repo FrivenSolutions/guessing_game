@@ -1,4 +1,5 @@
 // Games to play without the phone. Each game has steps and a tip for young kids.
+// Optional: ideas = { title, items } for a list of examples.
 window.OFFLINE_GAMES = [
   {
     emoji: '👀',
@@ -59,5 +60,54 @@ window.OFFLINE_GAMES = [
       'Point it out to prove it! The player with the most wins.',
     ],
     tip: 'Not at a Disney park? Count something else: hats, balloons or strollers.',
+  },
+  {
+    emoji: '🧺',
+    name: 'Going on a Picnic',
+    ages: '5+',
+    steps: [
+      'The leader thinks of a secret rule for what can come to the picnic. They do not say the rule.',
+      'The leader gives one thing that fits the rule and one that does not. For the double-letter rule: "I\'m bringing apples, but not pears."',
+      'Players take turns to ask: "Can I bring… a balloon?"',
+      'The leader says "Yes, you can!" or "No, you can\'t." only.',
+      'Keep going until someone can say the secret rule. They are the next leader.',
+    ],
+    ideas: {
+      title: 'Secret rule ideas',
+      items: [
+        '🟢 Easy: only red things',
+        '🟢 Easy: only animals',
+        '🟢 Easy: only things that are bigger than you',
+        '🟢 Easy: you can bring it only if you say "please"',
+        '🟡 Medium: it starts with the same letter as your name',
+        '🟡 Medium: only things you can eat',
+        '🔴 Hard: only words with a double letter (apple, balloon, sunglasses)',
+        '🔴 Hard: each thing starts with the next letter of the alphabet (apple, bread, cake…)',
+        '🔴 Hard: only words with exactly 4 letters',
+        '🔴 Hard: the leader says yes only if you touch your nose when you ask',
+      ],
+    },
+    tip: 'Little kids: use an easy rule, and let them be the leader with a rule a parent whispers to them. Older kids: this game is also called "The Green Glass Door".',
+  },
+  {
+    emoji: '🔤',
+    name: 'Alphabet Chain',
+    ages: '5+',
+    steps: [
+      'Pick a category: movies, animals, sports, foods, Disney characters…',
+      'The first player names a thing in the category that starts with A ("Alligator").',
+      'The next player names one that starts with B ("Bear"), and so on around the group.',
+      'Try to get all the way to Z!',
+    ],
+    ideas: {
+      title: 'Fast version',
+      items: [
+        'Forget the alphabet. Any thing in the category counts, but no repeats.',
+        'Everyone claps a slow beat: clap, clap, clap, clap, clap.',
+        'You have 5 claps to name a thing. If you stop or repeat, you are out for the round.',
+        'The last player in wins the round.',
+      ],
+    },
+    tip: 'Hard letters: skip Q, X and Z, or let the word just contain the letter. Little kids: they can name any thing in the category, with no letter rule.',
   },
 ];

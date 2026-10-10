@@ -624,10 +624,24 @@ function buildOffline() {
       li.textContent = step;
       ol.appendChild(li);
     }
+    d.append(s, ol);
+    if (g.ideas) {
+      const h = document.createElement('p');
+      h.className = 'ideas-title';
+      h.textContent = g.ideas.title;
+      const ul = document.createElement('ul');
+      ul.className = 'ideas';
+      for (const item of g.ideas.items) {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      }
+      d.append(h, ul);
+    }
     const tip = document.createElement('p');
     tip.className = 'tip';
     tip.textContent = '💡 ' + g.tip;
-    d.append(s, ol, tip);
+    d.append(tip);
     box.appendChild(d);
   }
 }

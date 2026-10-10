@@ -289,3 +289,6 @@ h2 { margin: 0; font-size: 2rem; }
 /* Emoji mode setting on the home screen */
 .emoji-setting { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px; }
 .hint.small { font-size: 0.85rem; }
+
+.offline-game .ideas-title { margin: 0 0 4px; font-weight: 700; color: var(--fg); }
+.offline-game .ideas { margin: 0 0 12px; padding-left: 20px; line-height: 1.45; }

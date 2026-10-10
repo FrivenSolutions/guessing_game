@@ -1,9 +1,9 @@
 {
-  "name": "Tilt Guess",
-  "short_name": "Tilt Guess",
+  "name": "The Waiting Game",
+  "short_name": "Waiting Game",
   "start_url": ".",
   "display": "fullscreen",
-  "orientation": "landscape",
+  "orientation": "any",
   "background_color": "#1d3557",
   "theme_color": "#1d3557",
   "icons": [
