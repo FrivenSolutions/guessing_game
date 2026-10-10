@@ -10,40 +10,70 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Home: pick a category and the round length -->
+  <!-- Home: pick a game -->
   <section id="screen-home" class="screen active">
     <h1>Tilt Guess</h1>
+    <p class="hint">Games for the line. Pick one.</p>
+    <div class="menu">
+      <button class="btn btn-menu" data-game="word">🔤 Word Guess<small>Tilt to guess the word</small></button>
+      <button class="btn btn-menu" data-game="picture">🖼️ Picture Guess<small>Tilt to guess the picture. Great for little kids.</small></button>
+      <button class="btn btn-menu" data-game="wyr">🤔 Would You Rather<small>Pick one. Say why!</small></button>
+      <button class="btn btn-menu btn-alt" data-game="offline">🌳 Offline Games<small>No phone needed</small></button>
+    </div>
+  </section>
+
+  <!-- Setup for Word Guess and Picture Guess -->
+  <section id="screen-setup" class="screen">
+    <h2 id="setup-title">Word Guess</h2>
     <p class="hint">Pick a category. Then hold the phone on your forehead, screen out.</p>
     <div id="categories" class="categories"></div>
-    <label class="setting">
-      Round length
-      <select id="round-length">
-        <option value="30">30 seconds</option>
-        <option value="60" selected>60 seconds</option>
-        <option value="90">90 seconds</option>
-        <option value="120">120 seconds</option>
-      </select>
-    </label>
+    <div class="settings">
+      <label class="setting">
+        Round type
+        <select id="round-type">
+          <option value="describe">🗣️ Describe it</option>
+          <option value="act">🎭 Act it out</option>
+          <option value="sound">🔊 Make the sound</option>
+        </select>
+      </label>
+      <label class="setting">
+        Round length
+        <select id="round-length">
+          <option value="30">30 seconds</option>
+          <option value="60" selected>60 seconds</option>
+          <option value="90">90 seconds</option>
+          <option value="120">120 seconds</option>
+        </select>
+      </label>
+    </div>
     <details class="howto">
       <summary>How to play</summary>
       <ol>
-        <li>Pick a category.</li>
+        <li>Pick a round type and a category.</li>
         <li>Hold the phone sideways on your forehead. The screen faces your friends.</li>
-        <li>Your friends describe the word on the screen.</li>
+        <li>Your friends give you clues for what is on the screen:
+          <ul>
+            <li><b>Describe it:</b> they use words, but not the word itself.</li>
+            <li><b>Act it out:</b> they act it with no talking and no sounds.</li>
+            <li><b>Make the sound:</b> they make noises only. No words!</li>
+          </ul>
+        </li>
         <li>Guessed it? Nod forward (screen tips toward the floor).</li>
         <li>Want to skip? Lean back (screen tips toward the ceiling).</li>
         <li>Bring the phone back upright before the next word.</li>
       </ol>
       <p>No tilt sensor? Use the keyboard: Down arrow = correct, Up arrow = skip.</p>
     </details>
+    <button class="btn btn-ghost js-home">Back</button>
   </section>
 
   <!-- Ready: wait until the phone is upright on the forehead -->
   <section id="screen-ready" class="screen">
     <p class="big">Place on forehead</p>
+    <p id="ready-type" class="ready-type"></p>
     <p id="ready-hint" class="hint">Hold the phone upright. The game starts by itself.</p>
     <button id="ready-start" class="btn hidden">Start anyway</button>
-    <button class="btn btn-ghost js-home">Back</button>
+    <button class="btn btn-ghost js-setup">Back</button>
   </section>
 
   <!-- Countdown: 3, 2, 1 -->
@@ -53,7 +83,9 @@
 
   <!-- Play: the word and the timer -->
   <section id="screen-play" class="screen">
+    <div id="round-tag" class="round-tag"></div>
     <div id="timer" class="timer">60</div>
+    <div id="pic" class="pic"></div>
     <div id="word" class="word"></div>
   </section>
 
@@ -63,11 +95,36 @@
     <ul id="results-list" class="results-list"></ul>
     <div class="row">
       <button id="play-again" class="btn">Play again</button>
-      <button class="btn btn-ghost js-home">Home</button>
+      <button class="btn btn-ghost js-setup">Change game</button>
     </div>
   </section>
 
+  <!-- Would You Rather -->
+  <section id="screen-wyr" class="screen">
+    <h2>Would you rather…</h2>
+    <button id="wyr-a" class="wyr-card wyr-a"></button>
+    <p class="wyr-or">or</p>
+    <button id="wyr-b" class="wyr-card wyr-b"></button>
+    <p class="hint">Everyone picks one. Then say why!</p>
+    <div class="row">
+      <button id="wyr-next" class="btn">Next ➜</button>
+      <button class="btn btn-ghost js-home">Back</button>
+    </div>
+    <label class="setting"><input type="checkbox" id="wyr-easy"> Easy questions only (for little kids)</label>
+  </section>
+
+  <!-- Offline games -->
+  <section id="screen-offline" class="screen">
+    <h2>🌳 Offline Games</h2>
+    <p class="hint">No phone needed. Tap a game to see how to play.</p>
+    <div id="offline-list" class="offline-list"></div>
+    <button class="btn btn-ghost js-home">Back</button>
+  </section>
+
   <script src="words.js"></script>
+  <script src="pictures.js"></script>
+  <script src="wyr.js"></script>
+  <script src="offline.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

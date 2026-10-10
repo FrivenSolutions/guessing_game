@@ -1,12 +1,21 @@
 # Tilt Guess
 
-A party word game for your phone. It runs in the web browser. You do not install anything.
+Party games for your phone, made for waiting in line. It runs in the web browser. You do not install anything.
 
-## How to play
+## Games
+
+- **🔤 Word Guess** and **🖼️ Picture Guess:** tilt-to-guess games (rules below). Picture Guess shows a big emoji with the word under it, so young kids who cannot read yet can give clues.
+- **🤔 Would You Rather:** the phone shows two choices. Everyone picks one and says why. Turn on "Easy questions only" for little kids.
+- **🌳 Offline Games:** rules for games with no phone: I Spy, 20 Questions, Rhyme Time, Story Chain and Count the Mickeys.
+
+## How to play Word Guess and Picture Guess
 
 1. Open the game on your phone and pick a category.
 2. Hold the phone sideways on your forehead. The screen faces your friends.
-3. Your friends describe the word on the screen. You guess it.
+3. Your friends give you clues. The **Round type** setting decides how:
+   - **Describe it:** with words, but not the word itself.
+   - **Act it out:** with actions only. No talking.
+   - **Make the sound:** with noises only. No words.
 4. **Correct:** nod forward. The screen tips toward the floor.
 5. **Skip:** lean back. The screen tips toward the ceiling.
 6. Bring the phone back upright before the next word.
@@ -19,7 +28,10 @@ A party word game for your phone. It runs in the web browser. You do not install
 | `index.html` | The screens of the game |
 | `style.css` | Colors and layout |
 | `app.js` | Game logic and tilt detection |
-| `words.js` | The word lists. Edit this file to add or change words and categories. |
+| `words.js` | Word Guess lists. Edit this file to add or change words and categories. |
+| `pictures.js` | Picture Guess lists, as emoji and word pairs |
+| `wyr.js` | Would You Rather questions. `true` at the end marks an easy question. |
+| `offline.js` | Offline game rules |
 | `manifest.webmanifest`, `icon.svg` | Let you add the game to your home screen as an app icon |
 
 ## Tilt sensor

@@ -118,3 +118,68 @@ h2 { margin: 0; font-size: 2rem; }
 }
 .results-list li.correct { border-left: 6px solid var(--correct); }
 .results-list li.skip { border-left: 6px solid var(--skip); color: var(--muted); }
+
+/* Home menu */
+.menu {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 28rem;
+}
+.btn-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
+  font-size: 1.4rem;
+  padding: 18px 20px;
+}
+.btn-menu small { font-size: 0.95rem; font-weight: 500; opacity: 0.8; }
+.btn-alt { background: var(--correct); color: var(--fg); }
+
+#screen-setup, #screen-offline, #screen-wyr { justify-content: flex-start; padding-top: 32px; }
+
+.settings { display: flex; gap: 12px 24px; flex-wrap: wrap; justify-content: center; }
+
+/* Ready screen */
+.ready-type { margin: 0; font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+
+/* Play screen: round type and picture */
+.round-tag {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  font-size: 4vmin;
+  font-weight: 700;
+  color: var(--muted);
+}
+.pic { font-size: 40vmin; line-height: 1.1; }
+.pic:empty { display: none; }
+
+/* Would You Rather */
+.wyr-card {
+  width: 100%;
+  max-width: 32rem;
+  min-height: 6rem;
+  padding: 20px;
+  border: 3px solid transparent;
+  border-radius: 16px;
+  font: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--fg);
+  cursor: pointer;
+}
+.wyr-a { background: #457b9d; }
+.wyr-b { background: #9d4edd; }
+.wyr-card.picked { border-color: var(--accent); transform: scale(1.03); }
+.wyr-or { margin: -4px 0; font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+
+/* Offline games */
+.offline-list { display: grid; gap: 10px; width: 100%; max-width: 32rem; text-align: left; }
+.offline-game { background: var(--card); border-radius: 12px; padding: 12px 16px; }
+.offline-game summary { cursor: pointer; font-size: 1.25rem; font-weight: 700; }
+.offline-game .ages { font-size: 0.9rem; font-weight: 500; color: var(--muted); margin-left: 8px; }
+.offline-game ol { padding-left: 20px; line-height: 1.45; }
+.offline-game .tip { color: var(--accent); margin: 0 0 4px; }
