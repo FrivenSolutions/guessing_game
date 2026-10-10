@@ -2,6 +2,8 @@
 
 Party games for your phone, made for waiting in line. It runs in the web browser. You do not install anything.
 
+**Play:** https://frivensolutions.github.io/the_waiting_game/
+
 ## Games
 
 - **🔤 Word Guess** and **🖼️ Picture Guess:** tilt-to-guess games (rules below). Picture Guess shows a big emoji with the word under it, so young kids who cannot read yet can give clues.
