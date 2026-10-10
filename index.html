@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#1d3557">
+  <title>Tilt Guess</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Home: pick a category and the round length -->
+  <section id="screen-home" class="screen active">
+    <h1>Tilt Guess</h1>
+    <p class="hint">Pick a category. Then hold the phone on your forehead, screen out.</p>
+    <div id="categories" class="categories"></div>
+    <label class="setting">
+      Round length
+      <select id="round-length">
+        <option value="30">30 seconds</option>
+        <option value="60" selected>60 seconds</option>
+        <option value="90">90 seconds</option>
+        <option value="120">120 seconds</option>
+      </select>
+    </label>
+    <details class="howto">
+      <summary>How to play</summary>
+      <ol>
+        <li>Pick a category.</li>
+        <li>Hold the phone sideways on your forehead. The screen faces your friends.</li>
+        <li>Your friends describe the word on the screen.</li>
+        <li>Guessed it? Nod forward (screen tips toward the floor).</li>
+        <li>Want to skip? Lean back (screen tips toward the ceiling).</li>
+        <li>Bring the phone back upright before the next word.</li>
+      </ol>
+      <p>No tilt sensor? Use the keyboard: Down arrow = correct, Up arrow = skip.</p>
+    </details>
+  </section>
+
+  <!-- Ready: wait until the phone is upright on the forehead -->
+  <section id="screen-ready" class="screen">
+    <p class="big">Place on forehead</p>
+    <p id="ready-hint" class="hint">Hold the phone upright. The game starts by itself.</p>
+    <button id="ready-start" class="btn hidden">Start anyway</button>
+    <button class="btn btn-ghost js-home">Back</button>
+  </section>
+
+  <!-- Countdown: 3, 2, 1 -->
+  <section id="screen-countdown" class="screen">
+    <p id="countdown" class="huge">3</p>
+  </section>
+
+  <!-- Play: the word and the timer -->
+  <section id="screen-play" class="screen">
+    <div id="timer" class="timer">60</div>
+    <div id="word" class="word"></div>
+  </section>
+
+  <!-- Results: score and word list -->
+  <section id="screen-results" class="screen">
+    <h2>Score: <span id="score">0</span></h2>
+    <ul id="results-list" class="results-list"></ul>
+    <div class="row">
+      <button id="play-again" class="btn">Play again</button>
+      <button class="btn btn-ghost js-home">Home</button>
+    </div>
+  </section>
+
+  <script src="words.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
