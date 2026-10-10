@@ -2,7 +2,8 @@
 // Use emoji from Unicode 12 (2019) or older, so older phones show them.
 window.PICTURE_LISTS = {
   animals: {
-    label: '🐘 Animals',
+    label: 'Animals',
+    emoji: '🐘',
     words: [
       ['🐶', 'Dog'], ['🐱', 'Cat'], ['🐭', 'Mouse'], ['🐹', 'Hamster'], ['🐰', 'Rabbit'],
       ['🦊', 'Fox'], ['🐻', 'Bear'], ['🐼', 'Panda'], ['🐨', 'Koala'], ['🐯', 'Tiger'],
@@ -21,7 +22,8 @@ window.PICTURE_LISTS = {
     ],
   },
   food: {
-    label: '🍕 Food',
+    label: 'Food',
+    emoji: '🍕',
     words: [
       ['🍕', 'Pizza'], ['🍔', 'Hamburger'], ['🌭', 'Hot Dog'], ['🍟', 'French Fries'], ['🌮', 'Taco'],
       ['🌯', 'Burrito'], ['🍝', 'Spaghetti'], ['🍣', 'Sushi'], ['🍜', 'Noodles'], ['🍩', 'Doughnut'],
@@ -37,7 +39,8 @@ window.PICTURE_LISTS = {
     ],
   },
   actions: {
-    label: '🏊 Actions',
+    label: 'Actions',
+    emoji: '🏊',
     words: [
       ['🏊', 'Swim'], ['😴', 'Sleep'], ['🎸', 'Play Guitar'], ['🥁', 'Play Drums'], ['🎤', 'Sing'],
       ['💃', 'Dance'], ['🏃', 'Run'], ['🚴', 'Ride a Bike'], ['⚽', 'Play Soccer'], ['🏀', 'Play Basketball'],
@@ -51,7 +54,8 @@ window.PICTURE_LISTS = {
     ],
   },
   things: {
-    label: '🚀 Things & Vehicles',
+    label: 'Things & Vehicles',
+    emoji: '🚀',
     words: [
       ['🚀', 'Rocket'], ['🚂', 'Train'], ['🚌', 'Bus'], ['🚒', 'Fire Truck'], ['🚓', 'Police Car'],
       ['🚑', 'Ambulance'], ['🚜', 'Tractor'], ['🚲', 'Bicycle'], ['🛴', 'Scooter'], ['🏍️', 'Motorcycle'],

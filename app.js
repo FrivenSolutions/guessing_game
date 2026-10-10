@@ -329,6 +329,8 @@ function stopRound() {
 
 function goHome() {
   stopRound();
+  stopSimon();
+  stopRace();
   show('home');
 }
 
@@ -342,7 +344,9 @@ function goSetup(mode = state.mode) {
   for (const [key, cat] of Object.entries(GAMES[mode].lists())) {
     const btn = document.createElement('button');
     btn.className = 'btn btn-category';
-    btn.textContent = cat.label;
+    btn.innerHTML = '<span class="cat-emoji"></span><span class="cat-label"></span>';
+    btn.firstChild.textContent = cat.emoji;
+    btn.lastChild.textContent = cat.label;
     btn.addEventListener('click', () => startGame(key));
     box.appendChild(btn);
   }
@@ -368,6 +372,184 @@ function nextWyr() {
 function goWyr() {
   if (!wyr.deck.length) nextWyr();
   show('wyr');
+}
+
+// ---- Emoji Riddles ----
+const riddles = { category: 'all', deck: [], next: 0 };
+
+function riddlePool() {
+  const lists = window.RIDDLE_LISTS;
+  if (riddles.category !== 'all') return lists[riddles.category].riddles;
+  return Object.values(lists).flatMap((l) => l.riddles);
+}
+
+function nextRiddle() {
+  if (riddles.next >= riddles.deck.length) {
+    riddles.deck = shuffle(riddlePool());
+    riddles.next = 0;
+  }
+  const [clue, answer] = riddles.deck[riddles.next++];
+  $('riddle-emoji').textContent = clue;
+  $('riddle-answer').textContent = '';
+  $('riddle-answer').dataset.answer = answer;
+  $('riddle-reveal').disabled = false;
+}
+
+function buildRiddleCats() {
+  const box = $('riddle-cats');
+  const cats = [['all', '🎲 All']].concat(
+    Object.entries(window.RIDDLE_LISTS).map(([k, l]) => [k, l.emoji + ' ' + l.label]));
+  for (const [key, label] of cats) {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.classList.toggle('on', key === riddles.category);
+    b.addEventListener('click', () => {
+      riddles.category = key;
+      riddles.deck = [];
+      box.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+      nextRiddle();
+    });
+    box.appendChild(b);
+  }
+}
+
+function goRiddles() {
+  if (!riddles.deck.length) nextRiddle();
+  show('riddles');
+}
+
+// ---- Simon Says ----
+const simon = { running: false, timerId: null, last: -1 };
+
+function speak(text) {
+  if (!$('simon-voice').checked || !window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+}
+
+function simonTick() {
+  const list = window.SIMON_ACTIONS;
+  let i;
+  do { i = Math.floor(Math.random() * list.length); } while (i === simon.last && list.length > 1);
+  simon.last = i;
+  const [emoji, action] = list[i];
+  // About 7 in 10 commands are real "Simon says" commands.
+  const real = Math.random() < 0.7;
+  const text = action.charAt(0).toUpperCase() + action.slice(1) + '!';
+  $('simon-prefix').innerHTML = real ? 'Simon says…' : '&nbsp;';
+  $('simon-emoji').textContent = emoji;
+  $('simon-text').textContent = text;
+  const stage = document.querySelector('.simon-stage');
+  stage.classList.remove('pop');
+  void stage.offsetWidth;  // restart the animation
+  stage.classList.add('pop');
+  speak((real ? 'Simon says, ' : '') + action);
+  simon.timerId = setTimeout(simonTick, Number($('simon-speed').value) || 4500);
+}
+
+function startSimon() {
+  simon.running = true;
+  $('simon-start').textContent = 'Pause';
+  keepAwake();
+  simonTick();
+}
+
+function stopSimon() {
+  simon.running = false;
+  clearTimeout(simon.timerId);
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  $('simon-start').textContent = 'Start';
+  releaseAwake();
+}
+
+// ---- Reaction Race ----
+const RACE_TARGET = 5;
+const race = { score: [0, 0], phase: 'idle', timerId: null, goAt: 0 };
+const raceHalves = () => [document.querySelector('.race-bottom'), document.querySelector('.race-top')];
+
+function raceShow(msgs) {
+  raceHalves().forEach((h, p) => {
+    h.querySelector('.race-score').textContent = race.score[p];
+    h.querySelector('.race-msg').textContent = msgs[p];
+  });
+}
+
+function raceReset() {
+  clearTimeout(race.timerId);
+  race.score = [0, 0];
+  race.phase = 'idle';
+  $('screen-race').classList.remove('go');
+  raceHalves().forEach((h) => h.classList.remove('won', 'foul'));
+  raceShow(['Tap to start', 'Tap to start']);
+}
+
+function raceRound() {
+  race.phase = 'wait';
+  $('screen-race').classList.remove('go');
+  raceHalves().forEach((h) => h.classList.remove('won', 'foul'));
+  raceShow(['Wait for green…', 'Wait for green…']);
+  race.timerId = setTimeout(() => {
+    race.phase = 'go';
+    race.goAt = performance.now();
+    $('screen-race').classList.add('go');
+    raceShow(['TAP!', 'TAP!']);
+    beep(880, 120);
+  }, 1500 + Math.random() * 3000);
+}
+
+function raceTap(player) {
+  if (race.phase === 'idle' || race.phase === 'over') {
+    if (race.phase === 'over') raceReset();
+    raceRound();
+    return;
+  }
+  if (race.phase !== 'wait' && race.phase !== 'go') return;
+  const other = 1 - player;
+  const halves = raceHalves();
+  const msgs = ['', ''];
+  if (race.phase === 'wait') {
+    // Tapped too early: the other player gets the point.
+    clearTimeout(race.timerId);
+    race.score[other]++;
+    halves[player].classList.add('foul');
+    halves[other].classList.add('won');
+    msgs[player] = 'Too early!';
+    msgs[other] = '+1 point';
+    beep(220, 250);
+  } else {
+    race.score[player]++;
+    halves[player].classList.add('won');
+    msgs[player] = 'You win! ' + ((performance.now() - race.goAt) / 1000).toFixed(2) + ' s';
+    msgs[other] = 'Too slow!';
+    beep(1046, 180);
+  }
+  $('screen-race').classList.remove('go');
+  vibrate(60);
+  const winner = race.score.findIndex((n) => n >= RACE_TARGET);
+  if (winner >= 0) {
+    race.phase = 'over';
+    msgs[winner] = '🏆 You win the match!';
+    msgs[1 - winner] = 'Good game! Tap to play again';
+    raceShow(msgs);
+    // Ignore taps for a moment so a late tap does not restart the match.
+    race.phase = 'pause';
+    race.timerId = setTimeout(() => { race.phase = 'over'; }, 1500);
+    return;
+  }
+  race.phase = 'pause';
+  raceShow(msgs);
+  race.timerId = setTimeout(raceRound, 1800);
+}
+
+function goRace() {
+  raceReset();
+  keepAwake();
+  show('race');
+}
+
+function stopRace() {
+  clearTimeout(race.timerId);
+  race.phase = 'idle';
 }
 
 // ---- Offline games ----
@@ -410,6 +592,9 @@ function init() {
       const game = btn.dataset.game;
       if (game === 'wyr') goWyr();
       else if (game === 'offline') show('offline');
+      else if (game === 'riddles') goRiddles();
+      else if (game === 'simon') show('simon');
+      else if (game === 'race') goRace();
       else goSetup(game);
     });
   });
@@ -436,6 +621,27 @@ function init() {
   });
 
   buildOffline();
+
+  buildRiddleCats();
+  $('riddle-next').addEventListener('click', nextRiddle);
+  $('riddle-reveal').addEventListener('click', () => {
+    $('riddle-answer').textContent = $('riddle-answer').dataset.answer;
+    $('riddle-reveal').disabled = true;
+  });
+
+  bindSetting('simon-speed', 'simonSpeed', '4500');
+  $('simon-voice').checked = loadSetting('simonVoice', '1') === '1';
+  $('simon-voice').addEventListener('change', (e) => saveSetting('simonVoice', e.target.checked ? '1' : '0'));
+  $('simon-start').addEventListener('click', () => {
+    initAudio();
+    if (simon.running) stopSimon(); else startSimon();
+  });
+
+  raceHalves().forEach((h, p) => h.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    initAudio();
+    raceTap(p);
+  }));
 }
 
 init();

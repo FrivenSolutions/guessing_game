@@ -46,6 +46,7 @@ h2 { margin: 0; font-size: 2rem; }
 .categories {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-auto-rows: 1fr;  /* every button as tall as the tallest */
   gap: 12px;
   width: 100%;
   max-width: 40rem;
@@ -64,7 +65,20 @@ h2 { margin: 0; font-size: 2rem; }
 }
 .btn:active { transform: scale(0.97); }
 .btn-ghost { background: transparent; color: var(--fg); border: 2px solid var(--muted); }
-.btn-category { padding: 24px 16px; font-size: 1.3rem; }
+.btn-category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 18px 12px;
+  font-size: 1.15rem;
+  line-height: 1.2;
+  background: linear-gradient(160deg, #ffd166, #ffb703);
+  box-shadow: 0 4px 0 #c98a00, 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+.btn-category:active { transform: translateY(3px); box-shadow: 0 1px 0 #c98a00; }
+.cat-emoji { font-size: 2.6rem; line-height: 1; }
 
 .setting { display: flex; gap: 8px; align-items: center; color: var(--muted); }
 .setting select { font: inherit; padding: 8px; border-radius: 8px; }
@@ -119,26 +133,7 @@ h2 { margin: 0; font-size: 2rem; }
 .results-list li.correct { border-left: 6px solid var(--correct); }
 .results-list li.skip { border-left: 6px solid var(--skip); color: var(--muted); }
 
-/* Home menu */
-.menu {
-  display: grid;
-  gap: 12px;
-  width: 100%;
-  max-width: 28rem;
-}
-.btn-menu {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  text-align: left;
-  font-size: 1.4rem;
-  padding: 18px 20px;
-}
-.btn-menu small { font-size: 0.95rem; font-weight: 500; opacity: 0.8; }
-.btn-alt { background: var(--correct); color: var(--fg); }
-
-#screen-setup, #screen-offline, #screen-wyr { justify-content: flex-start; padding-top: 32px; }
+#screen-setup, #screen-offline, #screen-wyr, #screen-riddles { justify-content: flex-start; padding-top: 32px; }
 
 .settings { display: flex; gap: 12px 24px; flex-wrap: wrap; justify-content: center; }
 
@@ -183,3 +178,110 @@ h2 { margin: 0; font-size: 2rem; }
 .offline-game .ages { font-size: 0.9rem; font-weight: 500; color: var(--muted); margin-left: 8px; }
 .offline-game ol { padding-left: 20px; line-height: 1.45; }
 .offline-game .tip { color: var(--accent); margin: 0 0 4px; }
+
+/* Home menu cards */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-auto-rows: 1fr;  /* every card as tall as the tallest */
+  gap: 12px;
+  width: 100%;
+  max-width: 44rem;
+}
+.card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 18px;
+  font: inherit;
+  text-align: left;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.card:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25); }
+.card-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 2rem;
+}
+.card-text { display: flex; flex-direction: column; gap: 3px; }
+.card-text b { font-size: 1.3rem; }
+.card-text small { font-size: 0.92rem; opacity: 0.92; line-height: 1.3; }
+.c-word    { --c1: #f4a100; --c2: #e76f51; }
+.c-picture { --c1: #e5537a; --c2: #b5179e; }
+.c-riddles { --c1: #7b2cbf; --c2: #5a189a; }
+.c-wyr     { --c1: #4361ee; --c2: #3a0ca3; }
+.c-simon   { --c1: #0096c7; --c2: #0077b6; }
+.c-race    { --c1: #e63946; --c2: #9d0208; }
+.c-offline { --c1: #2a9d8f; --c2: #1b7a5a; }
+
+/* Segmented control (Emoji Riddles categories) */
+.seg { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.seg button {
+  font: inherit;
+  padding: 8px 14px;
+  border: 2px solid var(--muted);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.seg button.on { background: var(--accent); border-color: var(--accent); color: #1d1d1d; font-weight: 700; }
+
+/* Emoji Riddles */
+.riddle-emoji { font-size: min(18vw, 7rem); line-height: 1.2; letter-spacing: 0.05em; }
+.riddle-answer { min-height: 2.6rem; font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+
+/* Simon Says */
+.simon-stage { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.simon-prefix { font-size: 1.8rem; font-weight: 800; color: var(--accent); min-height: 2.3rem; }
+.simon-emoji { font-size: min(32vw, 9rem); line-height: 1.15; }
+.simon-text { font-size: 2rem; font-weight: 800; max-width: 30rem; }
+.simon-stage.pop { animation: pop 0.25s ease-out; }
+@keyframes pop { from { transform: scale(0.85); opacity: 0.3; } to { transform: scale(1); opacity: 1; } }
+
+/* Reaction Race */
+.race { padding: 0; gap: 0; justify-content: stretch; height: 100%; }
+.race-half {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  touch-action: none;
+  /* No fade: green must show at once, or the race is not fair. */
+}
+.race-top { transform: rotate(180deg); background: #7b2cbf; }
+.race-bottom { background: #0077b6; }
+.race.go .race-half { background: #2dc653; }
+.race-half.won { background: #ffb703 !important; color: #1d1d1d; }
+.race-half.foul { background: #6c757d !important; }
+.race-score { font-size: 12vmin; font-weight: 800; line-height: 1; }
+.race-msg { font-size: 6vmin; font-weight: 700; min-height: 1.2em; padding: 0 12px; }
+.race-exit {
+  position: fixed;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--bg);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.btn:disabled { opacity: 0.45; cursor: default; }

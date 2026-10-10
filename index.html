@@ -15,10 +15,13 @@
     <h1>Tilt Guess</h1>
     <p class="hint">Games for the line. Pick one.</p>
     <div class="menu">
-      <button class="btn btn-menu" data-game="word">🔤 Word Guess<small>Tilt to guess the word</small></button>
-      <button class="btn btn-menu" data-game="picture">🖼️ Picture Guess<small>Tilt to guess the picture. Great for little kids.</small></button>
-      <button class="btn btn-menu" data-game="wyr">🤔 Would You Rather<small>Pick one. Say why!</small></button>
-      <button class="btn btn-menu btn-alt" data-game="offline">🌳 Offline Games<small>No phone needed</small></button>
+      <button class="card c-word" data-game="word"><span class="card-icon">🔤</span><span class="card-text"><b>Word Guess</b><small>Phone on your forehead. Tilt to guess the word.</small></span></button>
+      <button class="card c-picture" data-game="picture"><span class="card-icon">🖼️</span><span class="card-text"><b>Picture Guess</b><small>The same, with pictures. Great for little kids.</small></span></button>
+      <button class="card c-riddles" data-game="riddles"><span class="card-icon">🎬</span><span class="card-text"><b>Emoji Riddles</b><small>Name the movie from the emoji.</small></span></button>
+      <button class="card c-wyr" data-game="wyr"><span class="card-icon">🤔</span><span class="card-text"><b>Would You Rather</b><small>Pick one. Say why!</small></span></button>
+      <button class="card c-simon" data-game="simon"><span class="card-icon">🙋</span><span class="card-text"><b>Simon Says</b><small>The phone gives the orders. Don't get caught!</small></span></button>
+      <button class="card c-race" data-game="race"><span class="card-icon">⚡</span><span class="card-text"><b>Reaction Race</b><small>Two players. Tap first when it turns green.</small></span></button>
+      <button class="card c-offline" data-game="offline"><span class="card-icon">🌳</span><span class="card-text"><b>Offline Games</b><small>Rules for games with no phone.</small></span></button>
     </div>
   </section>
 
@@ -113,6 +116,66 @@
     <label class="setting"><input type="checkbox" id="wyr-easy"> Easy questions only (for little kids)</label>
   </section>
 
+  <!-- Emoji Riddles -->
+  <section id="screen-riddles" class="screen">
+    <h2>🎬 Emoji Riddles</h2>
+    <div id="riddle-cats" class="seg"></div>
+    <div id="riddle-emoji" class="riddle-emoji"></div>
+    <div id="riddle-answer" class="riddle-answer"></div>
+    <div class="row">
+      <button id="riddle-reveal" class="btn">Show answer</button>
+      <button id="riddle-next" class="btn btn-ghost">Next ➜</button>
+    </div>
+    <p class="hint">Hold up the phone. Who can name the movie first?</p>
+    <button class="btn btn-ghost js-home">Back</button>
+  </section>
+
+  <!-- Simon Says -->
+  <section id="screen-simon" class="screen">
+    <div class="simon-stage">
+      <div id="simon-prefix" class="simon-prefix">&nbsp;</div>
+      <div id="simon-emoji" class="simon-emoji">🙋</div>
+      <div id="simon-text" class="simon-text">Ready?</div>
+    </div>
+    <div class="row">
+      <button id="simon-start" class="btn">Start</button>
+      <button class="btn btn-ghost js-home">Back</button>
+    </div>
+    <div class="settings">
+      <label class="setting">
+        Speed
+        <select id="simon-speed">
+          <option value="6000">🐢 Slow</option>
+          <option value="4500" selected>🚶 Medium</option>
+          <option value="3000">🐇 Fast</option>
+        </select>
+      </label>
+      <label class="setting"><input type="checkbox" id="simon-voice" checked> 🔊 Read aloud</label>
+    </div>
+    <details class="howto">
+      <summary>How to play</summary>
+      <ol>
+        <li>Everyone stands facing the phone.</li>
+        <li>When the phone says <b>"Simon says…"</b>, do the action.</li>
+        <li>When the phone gives an action <b>without</b> "Simon says", do not move!</li>
+        <li>If you move at the wrong time, you are out. The last player in wins.</li>
+      </ol>
+    </details>
+  </section>
+
+  <!-- Reaction Race -->
+  <section id="screen-race" class="screen race">
+    <div class="race-half race-top" data-player="1">
+      <div class="race-score">0</div>
+      <div class="race-msg"></div>
+    </div>
+    <button class="race-exit js-home" aria-label="Back">✕</button>
+    <div class="race-half race-bottom" data-player="0">
+      <div class="race-score">0</div>
+      <div class="race-msg"></div>
+    </div>
+  </section>
+
   <!-- Offline games -->
   <section id="screen-offline" class="screen">
     <h2>🌳 Offline Games</h2>
@@ -125,6 +188,8 @@
   <script src="pictures.js"></script>
   <script src="wyr.js"></script>
   <script src="offline.js"></script>
+  <script src="riddles.js"></script>
+  <script src="simon.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

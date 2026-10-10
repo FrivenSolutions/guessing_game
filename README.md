@@ -5,7 +5,10 @@ Party games for your phone, made for waiting in line. It runs in the web browser
 ## Games
 
 - **🔤 Word Guess** and **🖼️ Picture Guess:** tilt-to-guess games (rules below). Picture Guess shows a big emoji with the word under it, so young kids who cannot read yet can give clues.
+- **🎬 Emoji Riddles:** the phone shows emoji clues for a movie. Name the movie, then tap "Show answer".
 - **🤔 Would You Rather:** the phone shows two choices. Everyone picks one and says why. Turn on "Easy questions only" for little kids.
+- **🙋 Simon Says:** the phone calls out actions and can read them aloud. Do the action only after "Simon says".
+- **⚡ Reaction Race:** two players, one half of the screen each. Tap first when the screen turns green. Tap too early and the other player gets the point. First to 5 wins.
 - **🌳 Offline Games:** rules for games with no phone: I Spy, 20 Questions, Rhyme Time, Story Chain and Count the Mickeys.
 
 ## How to play Word Guess and Picture Guess
@@ -32,6 +35,8 @@ Party games for your phone, made for waiting in line. It runs in the web browser
 | `pictures.js` | Picture Guess lists, as emoji and word pairs |
 | `wyr.js` | Would You Rather questions. `true` at the end marks an easy question. |
 | `offline.js` | Offline game rules |
+| `riddles.js` | Emoji Riddles, as emoji clue and answer pairs |
+| `simon.js` | Simon Says actions |
 | `manifest.webmanifest`, `icon.svg` | Let you add the game to your home screen as an app icon |
 
 ## Tilt sensor

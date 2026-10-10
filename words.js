@@ -2,6 +2,7 @@
 window.WORD_LISTS = {
   animals: {
     label: 'Animals',
+    emoji: '🦁',
     words: [
       'Dog', 'Cat', 'Horse', 'Cow', 'Pig', 'Sheep', 'Goat', 'Chicken', 'Duck', 'Rabbit',
       'Mouse', 'Hamster', 'Squirrel', 'Fox', 'Wolf', 'Bear', 'Polar Bear', 'Panda', 'Koala', 'Kangaroo',
@@ -17,6 +18,7 @@ window.WORD_LISTS = {
   },
   movies: {
     label: 'Movie Characters',
+    emoji: '🎬',
     words: [
       'Shrek', 'Princess Fiona', 'Puss in Boots', 'Darth Vader', 'Yoda', 'Luke Skywalker', 'Princess Leia', 'Han Solo', 'Chewbacca', 'R2-D2',
       'C-3PO', 'Harry Potter', 'Hermione Granger', 'Ron Weasley', 'Dumbledore', 'Voldemort', 'Hagrid', 'Gandalf', 'Frodo', 'Gollum',
@@ -32,6 +34,7 @@ window.WORD_LISTS = {
   },
   disney: {
     label: 'Disney & Pixar',
+    emoji: '🏰',
     words: [
       // Walt Disney Animation: heroes
       'Mickey Mouse', 'Snow White', 'Pinocchio', 'Jiminy Cricket', 'Dumbo', 'Bambi', 'Cinderella', 'Fairy Godmother', 'Alice', 'Mad Hatter',
@@ -56,6 +59,7 @@ window.WORD_LISTS = {
   },
   food: {
     label: 'Food',
+    emoji: '🍔',
     words: [
       'Pizza', 'Hamburger', 'Hot Dog', 'Sushi', 'Taco', 'Burrito', 'Spaghetti', 'Lasagna', 'Pancakes', 'Waffles',
       'French Fries', 'Popcorn', 'Ice Cream', 'Chocolate', 'Birthday Cake', 'Cupcake', 'Doughnut', 'Cookie', 'Brownie', 'Croissant',
