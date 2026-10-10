@@ -271,6 +271,7 @@ h2 { margin: 0; font-size: 2rem; }
 .race.go .race-zone { background: #2dc653; }
 .race-zone.won { background: #ffb703 !important; color: #1d1d1d; }
 .race-zone.foul { background: #6c757d !important; }
+.race-zone.out { background: #495057 !important; opacity: 0.75; }
 .race-score { font-size: 12vmin; font-weight: 800; line-height: 1; }
 .race-msg { font-size: 5.5vmin; font-weight: 700; min-height: 1.2em; padding: 0 8px; }
 .race-zones[data-n="4"] .race-msg { font-size: 4.5vmin; }

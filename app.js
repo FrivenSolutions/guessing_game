@@ -537,7 +537,8 @@ const RACE_LAYOUTS = {
   3: [{ p: 2, rot: 180 }, { p: 1, rot: -90 }, { p: 0, rot: 0 }],
   4: [{ p: 2, rot: 180 }, { p: 3, rot: 180 }, { p: 0, rot: 0 }, { p: 1, rot: 0 }],
 };
-const race = { n: 2, score: [], zones: [], phase: 'idle', timerId: null, goAt: 0 };
+// fouls: early taps this match. 1st foul costs a point, 2nd foul puts the player out.
+const race = { n: 2, score: [], fouls: [], out: [], zones: [], phase: 'idle', timerId: null, goAt: 0 };
 
 function buildRace(n) {
   race.n = n;
@@ -563,9 +564,15 @@ function buildRace(n) {
 
 function raceShow(msgs) {
   race.zones.forEach((z, p) => {
-    z.querySelector('.race-score').textContent = race.score[p];
-    z.querySelector('.race-msg').textContent = msgs[p] ?? '';
+    z.classList.toggle('out', race.out[p]);
+    z.querySelector('.race-score').textContent = race.score[p] + (race.fouls[p] === 1 ? ' ⚠️' : '');
+    z.querySelector('.race-msg').textContent = race.out[p] ? (msgs[p] || 'OUT') : (msgs[p] ?? '');
   });
+}
+
+// The same message for every player still in. Out players keep "OUT".
+function raceAll(text) {
+  return race.out.map((o) => (o ? undefined : text));
 }
 
 function raceClear() {
@@ -576,6 +583,8 @@ function raceClear() {
 function raceReset() {
   clearTimeout(race.timerId);
   race.score = Array(race.n).fill(0);
+  race.fouls = Array(race.n).fill(0);
+  race.out = Array(race.n).fill(false);
   race.phase = 'idle';
   raceClear();
   raceShow(Array(race.n).fill('Get ready'));
@@ -594,29 +603,41 @@ function raceStart() {
 function raceRound() {
   race.phase = 'wait';
   raceClear();
-  raceShow(Array(race.n).fill('Wait for green…'));
+  raceShow(raceAll('Wait for green…'));
   race.timerId = setTimeout(() => {
     race.phase = 'go';
     race.goAt = performance.now();
     $('screen-race').classList.add('go');
-    raceShow(Array(race.n).fill('TAP!'));
+    raceShow(raceAll('TAP!'));
     beep(880, 120);
   }, 1500 + Math.random() * 3000);
 }
 
 function raceTap(player) {
   if (race.phase !== 'wait' && race.phase !== 'go') return;
+  if (race.out[player]) return;
   const msgs = [];
   raceClear();
   if (race.phase === 'wait') {
-    // Tapped too early: lose a point (not below 0) and start the round again.
+    // Tapped too early. 1st time: lose a point (not below 0). 2nd time: out.
     clearTimeout(race.timerId);
-    race.score[player] = Math.max(0, race.score[player] - 1);
+    race.fouls[player]++;
     race.zones[player].classList.add('foul');
-    msgs[player] = 'Too early! −1';
-    race.zones.forEach((_, p) => { if (p !== player) msgs[p] = 'Again…'; });
+    if (race.fouls[player] >= 2) {
+      race.out[player] = true;
+      msgs[player] = 'Too early again. OUT!';
+    } else {
+      race.score[player] = Math.max(0, race.score[player] - 1);
+      msgs[player] = 'Too early! −1. Next time you are out!';
+    }
+    race.zones.forEach((_, p) => { if (p !== player && !race.out[p]) msgs[p] = 'Again…'; });
     beep(220, 250);
     vibrate(60);
+    const left = race.out.map((o, p) => (o ? -1 : p)).filter((p) => p >= 0);
+    if (left.length === 1) {
+      raceMatchEnd(left[0], msgs);
+      return;
+    }
     race.phase = 'pause';
     raceShow(msgs);
     race.timerId = setTimeout(raceRound, 1800);
@@ -625,26 +646,32 @@ function raceTap(player) {
   race.score[player]++;
   race.zones[player].classList.add('won');
   msgs[player] = 'You win! ' + ((performance.now() - race.goAt) / 1000).toFixed(2) + ' s';
-  race.zones.forEach((_, p) => { if (p !== player) msgs[p] = 'Too slow!'; });
+  race.zones.forEach((_, p) => { if (p !== player && !race.out[p]) msgs[p] = 'Too slow!'; });
   beep(1046, 180);
   vibrate(60);
   if (race.score[player] >= RACE_TARGET) {
-    msgs[player] = '🏆 You win the match!';
-    race.zones.forEach((_, p) => { if (p !== player) msgs[p] = 'Good game!'; });
-    raceShow(msgs);
-    // Wait a moment before the Play again box shows, so a late tap does not hit it.
-    race.phase = 'pause';
-    race.timerId = setTimeout(() => {
-      race.phase = 'over';
-      $('race-setup-msg').textContent = 'Play again?';
-      $('race-start').textContent = 'Play again ▶';
-      $('race-setup').classList.remove('hidden');
-    }, 1500);
+    raceMatchEnd(player, msgs);
     return;
   }
   race.phase = 'pause';
   raceShow(msgs);
   race.timerId = setTimeout(raceRound, 1800);
+}
+
+function raceMatchEnd(winner, msgs) {
+  race.zones[winner].classList.remove('foul');
+  race.zones[winner].classList.add('won');
+  race.zones.forEach((_, p) => { if (p !== winner && !race.out[p]) msgs[p] = 'Good game!'; });
+  msgs[winner] = '🏆 You win the match!';
+  raceShow(msgs);
+  // Wait a moment before the Play again box shows, so a late tap does not hit it.
+  race.phase = 'pause';
+  race.timerId = setTimeout(() => {
+    race.phase = 'over';
+    $('race-setup-msg').textContent = 'Play again?';
+    $('race-start').textContent = 'Play again ▶';
+    $('race-setup').classList.remove('hidden');
+  }, 1500);
 }
 
 function goRace() {
