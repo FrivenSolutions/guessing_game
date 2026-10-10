@@ -429,7 +429,8 @@ function goWyr() {
 }
 
 // ---- Emoji Riddles ----
-const riddles = { category: 'all', deck: [], next: 0 };
+const riddles = { category: 'all', deck: [], next: 0, recent: [] };
+const RIDDLE_GAP = 10;  // a movie does not come back within this many riddles
 
 function riddlePool() {
   const lists = window.RIDDLE_LISTS;
@@ -442,7 +443,17 @@ function nextRiddle() {
     riddles.deck = shuffle(riddlePool());
     riddles.next = 0;
   }
-  const [clue, answer] = riddles.deck[riddles.next++];
+  // Some movies have two clues. Move a riddle for a movie we saw lately
+  // further back, so the second clue is not too easy.
+  const deck = riddles.deck;
+  for (let j = riddles.next; j < deck.length; j++) {
+    if (!riddles.recent.includes(deck[j][1])) {
+      [deck[riddles.next], deck[j]] = [deck[j], deck[riddles.next]];
+      break;
+    }
+  }
+  const [clue, answer] = deck[riddles.next++];
+  riddles.recent = riddles.recent.concat(answer).slice(-RIDDLE_GAP);
   $('riddle-emoji').textContent = clue;
   $('riddle-answer').textContent = '';
   $('riddle-answer').dataset.answer = answer;
