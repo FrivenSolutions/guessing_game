@@ -30,6 +30,30 @@ window.WORD_LISTS = {
       'Remy the Rat', 'Barbie', 'Neo', 'Marty McFly', 'Sherlock Holmes', 'Robin Hood', 'Optimus Prime', 'Mrs. Doubtfire', 'Chucky', 'Kermit the Frog',
     ],
   },
+  disney: {
+    label: 'Disney & Pixar',
+    words: [
+      // Walt Disney Animation: heroes
+      'Mickey Mouse', 'Snow White', 'Pinocchio', 'Jiminy Cricket', 'Dumbo', 'Bambi', 'Cinderella', 'Fairy Godmother', 'Alice', 'Mad Hatter',
+      'Cheshire Cat', 'Peter Pan', 'Tinker Bell', 'Lady and the Tramp', 'Aurora', 'Pongo', 'Mowgli', 'Baloo', 'Robin Hood', 'Winnie the Pooh',
+      'Tigger', 'Eeyore', 'Piglet', 'Ariel', 'Sebastian', 'Flounder', 'King Triton', 'Belle', 'The Beast', 'Lumière',
+      'Aladdin', 'Jasmine', 'Genie', 'Abu', 'Simba', 'Nala', 'Mufasa', 'Timon', 'Pumbaa', 'Rafiki',
+      'Pocahontas', 'Quasimodo', 'Esmeralda', 'Hercules', 'Megara', 'Mulan', 'Mushu', 'Tarzan', 'Kuzco', 'Kronk',
+      'Lilo', 'Stitch', 'Tiana', 'Rapunzel', 'Flynn Rider', 'Wreck-It Ralph', 'Vanellope', 'Elsa', 'Anna', 'Olaf',
+      'Kristoff', 'Sven', 'Baymax', 'Judy Hopps', 'Nick Wilde', 'Moana', 'Maui', 'Raya', 'Mirabel', 'Bruno',
+      // Walt Disney Animation: villains
+      'Evil Queen', 'Wicked Stepmother', 'Queen of Hearts', 'Captain Hook', 'Maleficent', 'Cruella de Vil', 'Shere Khan', 'Kaa', 'Prince John', 'Ursula',
+      'Gaston', 'Jafar', 'Scar', 'Frollo', 'Hades', 'Shan Yu', 'Yzma', 'Dr. Facilier', 'Mother Gothel', 'Hans',
+      'King Candy', 'Tamatoa', 'King Magnifico',
+      // Pixar: heroes
+      'Woody', 'Buzz Lightyear', 'Jessie', 'Mr. Potato Head', 'Rex', 'Flik', 'Mike Wazowski', 'Sulley', 'Boo', 'Nemo',
+      'Dory', 'Marlin', 'Mr. Incredible', 'Elastigirl', 'Dash', 'Jack-Jack', 'Edna Mode', 'Lightning McQueen', 'Mater', 'Remy',
+      'WALL-E', 'EVE', 'Carl Fredricksen', 'Russell', 'Dug', 'Merida', 'Joy', 'Sadness', 'Anger', 'Anxiety',
+      'Bing Bong', 'Miguel', 'Héctor', 'Joe Gardner', 'Luca', 'Mei Lee', 'Ember',
+      // Pixar: villains
+      'Sid', 'Lotso', 'Hopper', 'Randall', 'Syndrome', 'Ernesto de la Cruz',
+    ],
+  },
   food: {
     label: 'Food',
     words: [
