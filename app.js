@@ -529,76 +529,117 @@ function stopSimon() {
 
 // ---- Reaction Race ----
 const RACE_TARGET = 5;
-const race = { score: [0, 0], phase: 'idle', timerId: null, goAt: 0 };
-const raceHalves = () => [document.querySelector('.race-bottom'), document.querySelector('.race-top')];
+const RACE_COLORS = ['#0077b6', '#7b2cbf', '#e85d04', '#c9184a'];
+// Screen areas from top to bottom (left to right in a row):
+// which player owns each area, and how its text turns to face that player.
+const RACE_LAYOUTS = {
+  2: [{ p: 1, rot: 180 }, { p: 0, rot: 0 }],
+  3: [{ p: 2, rot: 180 }, { p: 1, rot: -90 }, { p: 0, rot: 0 }],
+  4: [{ p: 2, rot: 180 }, { p: 3, rot: 180 }, { p: 0, rot: 0 }, { p: 1, rot: 0 }],
+};
+const race = { n: 2, score: [], zones: [], phase: 'idle', timerId: null, goAt: 0 };
+
+function buildRace(n) {
+  race.n = n;
+  race.zones = [];
+  const box = $('race-zones');
+  box.innerHTML = '';
+  box.dataset.n = n;
+  for (const { p, rot } of RACE_LAYOUTS[n]) {
+    const zone = document.createElement('div');
+    zone.className = 'race-zone';
+    zone.style.setProperty('--pc', RACE_COLORS[p]);
+    zone.innerHTML = '<div class="race-inner"><div class="race-score">0</div><div class="race-msg"></div></div>';
+    zone.firstChild.dataset.rot = rot;
+    zone.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      raceTap(p);
+    });
+    race.zones[p] = zone;
+    box.appendChild(zone);
+  }
+  document.querySelectorAll('#race-count button').forEach((b) => b.classList.toggle('on', Number(b.dataset.n) === n));
+}
 
 function raceShow(msgs) {
-  raceHalves().forEach((h, p) => {
-    h.querySelector('.race-score').textContent = race.score[p];
-    h.querySelector('.race-msg').textContent = msgs[p];
+  race.zones.forEach((z, p) => {
+    z.querySelector('.race-score').textContent = race.score[p];
+    z.querySelector('.race-msg').textContent = msgs[p] ?? '';
   });
+}
+
+function raceClear() {
+  $('screen-race').classList.remove('go');
+  race.zones.forEach((z) => z.classList.remove('won', 'foul'));
 }
 
 function raceReset() {
   clearTimeout(race.timerId);
-  race.score = [0, 0];
+  race.score = Array(race.n).fill(0);
   race.phase = 'idle';
-  $('screen-race').classList.remove('go');
-  raceHalves().forEach((h) => h.classList.remove('won', 'foul'));
-  raceShow(['Tap to start', 'Tap to start']);
+  raceClear();
+  raceShow(Array(race.n).fill('Get ready'));
+  $('race-setup-msg').textContent = 'How many players?';
+  $('race-start').textContent = 'Start ▶';
+  $('race-setup').classList.remove('hidden');
+}
+
+function raceStart() {
+  initAudio();
+  if (race.phase === 'over') raceReset();
+  $('race-setup').classList.add('hidden');
+  raceRound();
 }
 
 function raceRound() {
   race.phase = 'wait';
-  $('screen-race').classList.remove('go');
-  raceHalves().forEach((h) => h.classList.remove('won', 'foul'));
-  raceShow(['Wait for green…', 'Wait for green…']);
+  raceClear();
+  raceShow(Array(race.n).fill('Wait for green…'));
   race.timerId = setTimeout(() => {
     race.phase = 'go';
     race.goAt = performance.now();
     $('screen-race').classList.add('go');
-    raceShow(['TAP!', 'TAP!']);
+    raceShow(Array(race.n).fill('TAP!'));
     beep(880, 120);
   }, 1500 + Math.random() * 3000);
 }
 
 function raceTap(player) {
-  if (race.phase === 'idle' || race.phase === 'over') {
-    if (race.phase === 'over') raceReset();
-    raceRound();
+  if (race.phase !== 'wait' && race.phase !== 'go') return;
+  const msgs = [];
+  raceClear();
+  if (race.phase === 'wait') {
+    // Tapped too early: lose a point (not below 0) and start the round again.
+    clearTimeout(race.timerId);
+    race.score[player] = Math.max(0, race.score[player] - 1);
+    race.zones[player].classList.add('foul');
+    msgs[player] = 'Too early! −1';
+    race.zones.forEach((_, p) => { if (p !== player) msgs[p] = 'Again…'; });
+    beep(220, 250);
+    vibrate(60);
+    race.phase = 'pause';
+    raceShow(msgs);
+    race.timerId = setTimeout(raceRound, 1800);
     return;
   }
-  if (race.phase !== 'wait' && race.phase !== 'go') return;
-  const other = 1 - player;
-  const halves = raceHalves();
-  const msgs = ['', ''];
-  if (race.phase === 'wait') {
-    // Tapped too early: the other player gets the point.
-    clearTimeout(race.timerId);
-    race.score[other]++;
-    halves[player].classList.add('foul');
-    halves[other].classList.add('won');
-    msgs[player] = 'Too early!';
-    msgs[other] = '+1 point';
-    beep(220, 250);
-  } else {
-    race.score[player]++;
-    halves[player].classList.add('won');
-    msgs[player] = 'You win! ' + ((performance.now() - race.goAt) / 1000).toFixed(2) + ' s';
-    msgs[other] = 'Too slow!';
-    beep(1046, 180);
-  }
-  $('screen-race').classList.remove('go');
+  race.score[player]++;
+  race.zones[player].classList.add('won');
+  msgs[player] = 'You win! ' + ((performance.now() - race.goAt) / 1000).toFixed(2) + ' s';
+  race.zones.forEach((_, p) => { if (p !== player) msgs[p] = 'Too slow!'; });
+  beep(1046, 180);
   vibrate(60);
-  const winner = race.score.findIndex((n) => n >= RACE_TARGET);
-  if (winner >= 0) {
-    race.phase = 'over';
-    msgs[winner] = '🏆 You win the match!';
-    msgs[1 - winner] = 'Good game! Tap to play again';
+  if (race.score[player] >= RACE_TARGET) {
+    msgs[player] = '🏆 You win the match!';
+    race.zones.forEach((_, p) => { if (p !== player) msgs[p] = 'Good game!'; });
     raceShow(msgs);
-    // Ignore taps for a moment so a late tap does not restart the match.
+    // Wait a moment before the Play again box shows, so a late tap does not hit it.
     race.phase = 'pause';
-    race.timerId = setTimeout(() => { race.phase = 'over'; }, 1500);
+    race.timerId = setTimeout(() => {
+      race.phase = 'over';
+      $('race-setup-msg').textContent = 'Play again?';
+      $('race-start').textContent = 'Play again ▶';
+      $('race-setup').classList.remove('hidden');
+    }, 1500);
     return;
   }
   race.phase = 'pause';
@@ -607,6 +648,7 @@ function raceTap(player) {
 }
 
 function goRace() {
+  buildRace(Number(loadSetting('raceN', '2')) || 2);
   raceReset();
   keepAwake();
   show('race');
@@ -720,10 +762,12 @@ function init() {
     if (simon.running) stopSimon(); else startSimon();
   });
 
-  raceHalves().forEach((h, p) => h.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    initAudio();
-    raceTap(p);
+  $('race-start').addEventListener('click', raceStart);
+  document.querySelectorAll('#race-count button').forEach((b) => b.addEventListener('click', () => {
+    const n = Number(b.dataset.n);
+    saveSetting('raceN', String(n));
+    buildRace(n);
+    raceReset();
   }));
 }
 

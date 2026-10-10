@@ -10,7 +10,7 @@ Party games for your phone, made for waiting in line. It runs in the web browser
 - **🎬 Emoji Riddles:** the phone shows emoji clues for a movie. Name the movie, then tap "Show answer".
 - **🤔 Would You Rather:** the phone shows two choices. Everyone picks one and says why. Turn on "Easy questions only" for little kids.
 - **🙋 Simon Says:** the phone calls out actions and can read them aloud. Do the action only after "Simon says".
-- **⚡ Reaction Race:** two players, one half of the screen each. Tap first when the screen turns green. Tap too early and the other player gets the point. First to 5 wins.
+- **⚡ Reaction Race:** 2 to 4 players, each with one area of the screen. Tap first when the screen turns green. Tap too early and you lose a point. First to 5 wins.
 - **🌳 Offline Games:** rules for games with no phone: I Spy, 20 Questions, Rhyme Time, Story Chain, Count the Mickeys, Going on a Picnic and Alphabet Chain.
 
 ## How to play Word Guess and Picture Guess

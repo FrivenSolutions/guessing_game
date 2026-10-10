@@ -250,31 +250,56 @@ h2 { margin: 0; font-size: 2rem; }
 @keyframes pop { from { transform: scale(0.85); opacity: 0.3; } to { transform: scale(1); opacity: 1; } }
 
 /* Reaction Race */
-.race { padding: 0; gap: 0; justify-content: stretch; height: 100%; }
-.race-half {
-  flex: 1;
-  width: 100%;
+.race { position: relative; padding: 0; height: 100%; }
+.race-zones { position: absolute; inset: 0; display: grid; }
+.race-zones[data-n="2"] { grid-template-rows: 1fr 1fr; }
+.race-zones[data-n="3"] { grid-template-rows: 1fr 1fr 1fr; }
+.race-zones[data-n="4"] { grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr; }
+.race-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: none;
+  background: var(--pc);
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  /* No fade: green must show at once, or the race is not fair. */
+}
+.race-inner { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.race-inner[data-rot="180"] { transform: rotate(180deg); }
+.race-inner[data-rot="-90"] { transform: rotate(-90deg); max-width: 30vh; }
+.race.go .race-zone { background: #2dc653; }
+.race-zone.won { background: #ffb703 !important; color: #1d1d1d; }
+.race-zone.foul { background: #6c757d !important; }
+.race-score { font-size: 12vmin; font-weight: 800; line-height: 1; }
+.race-msg { font-size: 5.5vmin; font-weight: 700; min-height: 1.2em; padding: 0 8px; }
+.race-zones[data-n="4"] .race-msg { font-size: 4.5vmin; }
+.race-setup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  touch-action: none;
-  /* No fade: green must show at once, or the race is not fair. */
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
-.race-top { transform: rotate(180deg); background: #7b2cbf; }
-.race-bottom { background: #0077b6; }
-.race.go .race-half { background: #2dc653; }
-.race-half.won { background: #ffb703 !important; color: #1d1d1d; }
-.race-half.foul { background: #6c757d !important; }
-.race-score { font-size: 12vmin; font-weight: 800; line-height: 1; }
-.race-msg { font-size: 6vmin; font-weight: 700; min-height: 1.2em; padding: 0 12px; }
+.race-setup.hidden { display: none; }
+.race-setup-msg { margin: 0; font-size: 1.2rem; font-weight: 700; }
+.race-setup .seg { flex-wrap: nowrap; }
+.race-setup .seg button { min-width: 3rem; font-size: 1.2rem; }
+.race-setup .btn { white-space: nowrap; }
 .race-exit {
   position: fixed;
   top: 50%;
-  right: 12px;
+  left: 12px;
   transform: translateY(-50%);
-  z-index: 2;
+  z-index: 4;
   width: 44px;
   height: 44px;
   border-radius: 50%;

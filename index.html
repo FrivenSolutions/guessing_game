@@ -20,7 +20,7 @@
       <button class="card c-riddles" data-game="riddles"><span class="card-icon">🎬</span><span class="card-text"><b>Emoji Riddles</b><small>Name the movie from the emoji.</small></span></button>
       <button class="card c-wyr" data-game="wyr"><span class="card-icon">🤔</span><span class="card-text"><b>Would You Rather</b><small>Pick one. Say why!</small></span></button>
       <button class="card c-simon" data-game="simon"><span class="card-icon">🙋</span><span class="card-text"><b>Simon Says</b><small>The phone gives the orders. Don't get caught!</small></span></button>
-      <button class="card c-race" data-game="race"><span class="card-icon">⚡</span><span class="card-text"><b>Reaction Race</b><small>Two players. Tap first when it turns green.</small></span></button>
+      <button class="card c-race" data-game="race"><span class="card-icon">⚡</span><span class="card-text"><b>Reaction Race</b><small>2 to 4 players. Tap first when it turns green.</small></span></button>
       <button class="card c-offline" data-game="offline"><span class="card-icon">🌳</span><span class="card-text"><b>Offline Games</b><small>Rules for games with no phone.</small></span></button>
     </div>
     <div class="emoji-setting">
@@ -176,15 +176,17 @@
 
   <!-- Reaction Race -->
   <section id="screen-race" class="screen race">
-    <div class="race-half race-top" data-player="1">
-      <div class="race-score">0</div>
-      <div class="race-msg"></div>
+    <div id="race-zones" class="race-zones"></div>
+    <div id="race-setup" class="race-setup">
+      <p id="race-setup-msg" class="race-setup-msg">How many players?</p>
+      <div id="race-count" class="seg">
+        <button data-n="2">2</button>
+        <button data-n="3">3</button>
+        <button data-n="4">4</button>
+      </div>
+      <button id="race-start" class="btn">Start ▶</button>
     </div>
     <button class="race-exit js-home" aria-label="Back">✕</button>
-    <div class="race-half race-bottom" data-player="0">
-      <div class="race-score">0</div>
-      <div class="race-msg"></div>
-    </div>
   </section>
 
   <!-- Offline games -->
